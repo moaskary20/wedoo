@@ -1,7 +1,14 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// Hide PHP 8.2+ deprecation warnings in production
+if (getenv('CI_ENVIRONMENT') === 'production') {
+    ini_set('display_errors', 0);
+    error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT & ~E_NOTICE);
+} else {
+    // Keep original settings for development
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL & ~E_DEPRECATED); // Hide only deprecation warnings
+}
 /*
  *---------------------------------------------------------------
  * CHECK PHP VERSION
