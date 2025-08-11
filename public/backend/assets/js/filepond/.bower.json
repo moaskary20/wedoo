@@ -1,0 +1,15 @@
+{
+  "name": "filepond",
+  "homepage": "https://github.com/pqina/filepond",
+  "version": "4.30.4",
+  "_release": "4.30.4",
+  "_resolution": {
+    "type": "version",
+    "tag": "4.30.4",
+    "commit": "69077ef802294d0b6f31132dec9ec6b6b7653756"
+  },
+  "_source": "https://github.com/pqina/filepond.git",
+  "_target": "^4.30.4",
+  "_originalSource": "filepond",
+  "_direct": true
+}

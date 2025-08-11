@@ -1,0 +1,173 @@
+
+i have edemand project 
+Process flowchart 
+
+Order Flowchart ::User journey flowchart 
+
+this is its process flow
+
+
+What is eDemand & Why choose eDemand?
+eDemand lets you create a marketplace for the various service providers around the city. by using which you can provide services to customers at their doorstep
+
+
+
+Admin Panel :
+
+- For first you have to add configure general settings ,app settings ,  web settings , and payment gateway settings 
+-also do not to configure firebase setting becuase it use for chat and notification in panel and app
+
+
+- Then you need to add sytem taxes 
+- Then add categories 
+- these both are used for adding service
+
+
+- and for service you need to add provider first 
+    so first add provider 
+
+- Provider must have active subscription to list out in customer app and web 
+- Create subscription from admin panel 
+- now for provider subsctiption there is two way 1) admin can assign subscrption to provider 2) provider can buy subscription from provider app or panel 
+
+- In feature section you can create sections which is display in home poage or app and web 
+Add promocodes if want to add its provider wise so from provider panel or app they can add 
+
+now aftyer you create provider activate the subscriptions create services 
+also note there is two options like at store and at doorstep  this two setting are also in add provider 
+so provider and service must have same congiuratyion of service at store and doorsteo and provider at store at doorstep
+
+this is becuase 
+
+sir we are allowing option to book the multiple services in one booking
+
+so let say if we show the services which are only availale for the home and some are available for the store
+then on the checkout we have to allow customer to select each option while checking out
+
+and also have to manage the visiting charges
+
+so we have just keep the flow that
+if provider allowing only store services then services will be shown to customers which are available at store only 
+sir we are allowing option to book the multiple services in one booking
+
+so let say if we show the services which are only availale for the home and some are available for the store
+then on the checkout we have to allow customer to select each option while checking out
+
+and also have to manage the visiting charges
+
+so we have just keep the flow that
+if provider allowing only store services then services will be shown to customers which are available at store only 
+
+same for the home
+
+if the provider allowing services which might be available for both
+then customer will have an option to select their preferred option
+
+if they are selecting home then they are paying the visiting charge for that
+i think so there will not be a case for provider as they getting paid for that
+
+and if provider want to allow services only for the store
+then they can select the only store option and add their services with only that option enabled
+
+
+
+- now after adding service  here you can go in app or web for booking 
+
+
+you can find different categories  and providers from there  add to cart and proceed further 
+
+
+
+now if once customer book service then admin or provider can change status of their 
+let say there in generate setting Booking auto cancle Duration is set to 20 min If the booking is not accepted by the provider before the added cancelable duration from the actual booking time, the booking will be automatically canceled. If the booking is pre-paid, the amount will be credited to the customer’s bank account.For example, if a customer books a service at 4:00 PM, and the cancelable duration is 30 minutes, if the provider does not accept the booking by 3:30 PM, the booking will be canceled.
+
+now admin or provider will chnage according to status  let say there is status confirmed, started if status is started then they can upload work started proofs , Booking ended - in this status admin or provider can add extra charges if they have any and also can upload work completed proofs like image , videos, nest status is reschweduled in this they can reschedule booking , next is completed in this status if otp system is enable in general settiung then they have to put otp to complete the booking and if it disable then they can complete status , nest is canclled in this status booking is cancelled if payment of its online then refund will be given 
+noe if when provider or admin want to complete service and there is poendig paymenrt of customer of additionakl charges then they can not complete booking first payment must be done then after they cna complete booking
+
+
+Now Next is there is custom job request here customer  requerst for their requireent wioth specific category and budget provider will see those according to their setting like ctageory preference if they have those catgeoy in therie preference then they reciev notification and list out of custom job requests then they bid for it from provider panel or provider app 
+customer will see those bids and finalise them book 
+
+
+Not there is poaymanr request modue :: it is for If the provider needs the money for their prepaid booked services due to any circumstances, they can send a withdraw request and the withdrawal requests sent by the provider will be shown here.
+
+
+Settlement mnodule :: The admin will be able to view the prepaid booking amount that is to be sent to the provider. This amount represents the total payment made by the customer in advance for the provider’s services. The admin is responsible for  sending the remaining payment to the provider.
+
+Cad\sh collection module :: Admin commission amounts for COD bookings will be managed here. The amount will be credited once the booking status is completed. For example, if a customer books a service for $100 as COD, the provider will receive the total booking amount of $100 in cash. The provider will then need to pay the admin their commission amount of 10%, which in this case is $10. Admin can check the commission amount received from the provider here in their account, and they will need to collect this amount from the provider directly.
+
+
+There is also configure your notification settings and email settings
+
+
+
+---------
+eDemand Overview
+What is eDemand?
+eDemand is a platform that connects service providers to customers looking for doorstep services, covering various service categories across the city. This streamlined approach allows customers to find, book, and complete services easily, while providers can efficiently manage their listings and subscriptions.
+
+Process Flow
+1. Initial Setup (Admin Panel)
+General & App Settings:
+The first step is configuring the general, app, and web settings. General settings handle key platform configurations, while app settings manage app-specific requirements.
+Payment Gateway Configuration:
+Admin must set up payment gateway integrations to handle transactions, ensuring secure online payments for services booked on the platform.
+Firebase Integration:
+Firebase is configured for chat and notifications, allowing seamless communication between customers and providers. Notifications keep users updated on booking statuses, offers, and announcements.
+2. System Taxes & Service Categories
+System Taxes:
+Define tax rates for services.
+Categories:
+Admin can create service categories (e.g., cleaning, repair, beauty). Categories are essential for organizing services, helping customers find what they need quickly.
+3. Provider Management & Subscription
+Adding Providers:
+Providers are essential as they offer services on the platform. Admins must first add provider profiles, verifying their credentials and setting configurations.
+Subscription Requirement:
+To be visible to customers, providers need an active subscription. Admins manage this subscription in two ways:
+Assigned Subscription: Admin can manually assign subscriptions to providers.
+Provider Purchase: Providers can buy subscriptions through their panel or app, giving them autonomy over their listing status.
+4. Service Creation
+Service Configuration:
+Admins and providers can set services to be available either “At Store” or “At Doorstep.”
+Provider-Service Compatibility:
+To avoid confusion during booking, both providers and services should have compatible configurations (e.g., both set for either “At Store” or “At Doorstep”).
+If a provider offers services at both the store and doorstep, customers can choose their preferred option, including potential doorstep charges. This flexibility lets customers select multiple services per booking.
+5. Booking Process (Customer App/Web)
+Service Discovery:
+Customers browse categories and providers, adding services to their cart for a seamless checkout experience.
+Booking Statuses:
+Auto-Cancel: If a provider does not accept a booking within a specified time, it’s automatically canceled. For prepaid bookings, refunds are processed accordingly.
+Status Updates:
+Confirmed: Booking is accepted by the provider.
+Started: Providers/Admin can upload proof (images/videos) to mark the beginning of work.
+Completed: After work completion, providers upload proof, and additional charges (if any) are handled here.
+Rescheduled: Admin/Provider/Customer can reschedule if necessary.
+Canceled: Bookings are canceled, and refunds are processed for online payments.
+OTP Verification (if enabled): Customers use OTPs to confirm completion, providing added security.
+Additional Charges:
+For work requiring extra costs, providers can add charges before marking the booking as complete. Customers must pay these charges before final completion.
+6. Custom Job Requests
+Custom Requests by Customers:
+Customers may request specific services outside standard offerings, specifying details like category and budget.
+Provider Bidding:
+Providers interested in the request (and with relevant category preferences) are notified and can submit bids via their app or panel. Customers review bids and finalize a provider based on preferences.
+7. Payment Requests (Provider Panel)
+Early Withdrawal Requests:
+For prepaid bookings, if a provider needs access to funds before service completion, they can submit a withdrawal request. This request is reviewed by the admin, who may release funds accordingly.
+8. Settlement Management
+Prepaid Booking Settlements:
+Admins oversee payments for prepaid services. After service completion, any remaining balance is paid to the provider, ensuring fair compensation for their services.
+9. Cash Collection (Admin Panel)
+Admin Commission for COD Bookings:
+In cases where customers choose Cash on Delivery (COD), providers receive the full payment directly. Providers then owe a commission to the admin.
+Admin tracks this commission, collecting it post-service completion. For example, if the booking is $100 and the admin commission is 10%, the provider receives $100 but owes $10 in commission.
+10. Notification & Email Settings
+System-wide Notifications and Emails:
+Notifications alert customers and providers about booking statuses, promotions, and updates.
+Admin configures email settings to keep users informed, reinforcing clear communication and engagement on the platform.
+
+
+
+   $edemand = new \Config\Edemand;
+            $permissions = $edemand->permissions;
+            $this->data['permissions'] =  $permissions;

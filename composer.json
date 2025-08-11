@@ -1,0 +1,73 @@
+{
+    "name": "codeigniter4/appstarter",
+    "type": "project",
+    "description": "CodeIgniter4 starter app",
+    "homepage": "https://codeigniter.com",
+    "license": "MIT",
+    "require": {
+        "php": "^7.3 || ^8.0",
+        "codeigniter4/framework": "^4.5",
+        "benedmunds/codeigniter-ion-auth": "4.x-dev",
+        "aws/aws-sdk-php": "^3.258",
+        "kartik-v/yii2-widget-rating": "dev-master",
+        "mpdf/mpdf": "dev-development",
+        "paypal/paypal-checkout-sdk": "dev-develop",
+        "razorpay/razorpay": "dev-master",
+        "stripe/stripe-php": "^10.18@beta",
+        "matscode/paystack": "dev-master",
+        "yabacon/paystack-php": "^2.2",
+        "guzzlehttp/psr7": "^2.4.5",
+        "psr/http-message": "^1.1",
+        "google/apiclient": "2.x-dev",
+        "seunmatt/codeigniter-log-viewer": "dev-master",
+        "phpoffice/phpspreadsheet": "dev-master",
+        "vonage/client": "dev-main",
+        "guzzlehttp/guzzle": "7.7.x-dev",
+        "nyholm/psr7": "^1.8@dev",
+        "symfony/process": "6.4.x-dev",
+        "codeigniter4/queue": "dev-develop"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.9",
+        "mikey179/vfsstream": "^1.6",
+        "phpunit/phpunit": "^9.1"
+    },
+    "suggest": {
+        "ext-fileinfo": "Improves mime type detection for files"
+    },
+    "autoload": {
+        "psr-4": {
+        
+        },
+        "exclude-from-classmap": [
+            "**/Database/Migrations/**"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Support\\": "tests/_support"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "pre-autoload-dump": "Google\\Task\\Composer::cleanup"
+    },
+    "extra": {
+        "google/apiclient-services": [
+            "FirebaseCloudMessaging"
+        ]
+    },
+    "support": {
+        "forum": "http://forum.codeigniter.com/",
+        "source": "https://github.com/codeigniter4/CodeIgniter4",
+        "slack": "https://codeigniterchat.slack.com"
+    },
+    "minimum-stability": "dev",
+    "repositories": {
+        "ionAuth": {
+            "type": "vcs",
+            "url": "git@github.com:benedmunds/CodeIgniter-Ion-Auth.git"
+        }
+    },
+    "prefer-stable": true
+}
