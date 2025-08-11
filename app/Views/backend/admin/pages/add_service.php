@@ -12,7 +12,9 @@ $cod_setting =  $check_payment_gateway['cod_setting'];
                 <div class="breadcrumb-item"><?= labels('add_services', 'Add Service') ?></a></div>
             </div>
         </div>
-        <?= form_open('/admin/services/insert_service', ['method' => "post", 'class' => 'form-submit-event', 'id' => 'add_service', 'enctype' => "multipart/form-data"]); ?>
+        <?= form_open('/admin/services/insert_service', ['method' => "post", 'class' => 'normal-form-submit', 'enctype' => "multipart/form-data"]); ?>
+        <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
+        
         <div class="row mb-3">
             <div class="col-md-6">
                 <div class="card h-100">
@@ -360,7 +362,7 @@ $cod_setting =  $check_payment_gateway['cod_setting'];
         </div>
         <div class="row">
             <div class="col-md d-flex justify-content-end">
-                <button type="submit" class="btn btn-lg bg-new-primary submit_btn"><?= labels('add_services', 'Add Service') ?></button>
+                <button type="submit" class="btn btn-lg btn-primary" name="submit_form" value="1"><?= labels('add_services', 'Add Service') ?></button>
                 <?= form_close() ?>
             </div>
         </div>
@@ -494,6 +496,39 @@ $cod_setting =  $check_payment_gateway['cod_setting'];
         } else {
             $("#service_approve_service").show();
         }
+    });
+</script>
+<script>
+    $(function() {
+        $('.fa').popover({
+            trigger: "hover"
+        });
+    })
+
+    $("#service_title").on("input", function() {
+        let slug = generateSlug($(this).val());
+        $("#service_slug").val(slug);
+    });
+    
+    // COMPLETELY DISABLE ALL AJAX FORM HANDLERS
+    $(document).ready(function() {
+        // Override jQuery's AJAX submit completely
+        $.fn.submit = function() {
+            return this.each(function() {
+                if (this.submit) {
+                    this.submit();
+                }
+            });
+        };
+        
+        // Remove ALL event handlers from document that handle form submission
+        $(document).off('submit');
+        
+        // Disable preventDefault on forms
+        $('form').off('submit').on('submit', function(e) {
+            // Allow only normal HTML submission
+            return true;
+        });
     });
 </script>
 <script>

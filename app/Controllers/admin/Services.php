@@ -24,6 +24,352 @@ class Services extends Admin
         $this->trans = new ApiResponseAndNotificationStrings();
         helper('ResponceServices');
     }
+    
+    public function simple_add_service()
+    {
+        // Simple add service page without template
+        if (!$this->isLoggedIn || !$this->userIsAdmin) {
+            return redirect('admin/login');
+        }
+        
+        $categories = $this->db->table('categories')->get()->getResultArray();
+        $partners = $this->db->table('users u')
+            ->select('u.id,u.username,pd.company_name')
+            ->join('partner_details pd', 'pd.partner_id = u.id')
+            ->where('is_approved', '1')
+            ->get()->getResultArray();
+        
+        $html = '
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Service</title>
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Add Service</h2>
+        
+        <form action="/admin/services/insert_service" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="csrf_test_name" value="dummy_csrf_hash" />
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label>Provider *</label>
+                        <select name="partner" class="form-control" required>
+                            <option value="">Select Provider</option>';
+                            
+        foreach($partners as $partner) {
+            $html .= '<option value="'.$partner['id'].'">'.$partner['company_name'].' - '.$partner['username'].'</option>';
+        }
+        
+        $html .= '
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label>Title *</label>
+                        <input type="text" name="title" class="form-control" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label>Category *</label>
+                        <select name="categories" class="form-control" required>
+                            <option value="">Select Category</option>';
+                            
+        foreach($categories as $category) {
+            $html .= '<option value="'.$category['id'].'">'.$category['name'].'</option>';
+        }
+        
+        $html .= '
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label>Tags *</label>
+                        <input type="text" name="tags[]" class="form-control" placeholder="Enter tags separated by comma" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label>Description *</label>
+                        <textarea name="description" class="form-control" required></textarea>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label>Long Description *</label>
+                        <textarea name="long_description" class="form-control" required></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label>Price *</label>
+                        <input type="number" name="price" class="form-control" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label>Discounted Price *</label>
+                        <input type="number" name="discounted_price" class="form-control" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label>Members Required *</label>
+                        <input type="number" name="members" class="form-control" value="1" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label>Duration (minutes) *</label>
+                        <input type="number" name="duration" class="form-control" value="60" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label>Max Quantity *</label>
+                        <input type="number" name="max_qty" class="form-control" value="10" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label>Service Slug *</label>
+                        <input type="text" name="service_slug" class="form-control" required>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Hidden required fields -->
+            <input type="hidden" name="tax_type" value="excluded">
+            <input type="hidden" name="tax_id" value="1">
+            <input type="hidden" name="approve_service_value" value="1">
+            <input type="hidden" name="status" value="1">
+            <input type="hidden" name="at_store" value="1">
+            <input type="hidden" name="at_doorstep" value="1">
+            
+            <div class="row">
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Add Service</button>
+                    <a href="/admin/services" class="btn btn-secondary">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        // Auto-generate slug from title
+        document.querySelector(\'input[name="title"]\').addEventListener(\'input\', function() {
+            const slug = this.value.toLowerCase().replace(/[^a-z0-9]+/g, \'-\').replace(/^-|-$/g, \'\');
+            document.querySelector(\'input[name="service_slug"]\').value = slug;
+        });
+        
+        // Format tags
+        document.querySelector(\'input[name="tags[]"]\').addEventListener(\'blur\', function() {
+            const tags = this.value.split(\',\').map(tag => ({value: tag.trim()}));
+            this.value = JSON.stringify(tags);
+        });
+    </script>
+</body>
+</html>';
+        
+        echo $html;
+    }
+    
+    public function test_add_simple()
+    {
+        // Simple test method without any validation
+        echo "<h1>Test Add Service</h1>";
+        echo "<p>POST Data:</p>";
+        echo "<pre>" . print_r($_POST, true) . "</pre>";
+        
+        if (!empty($_POST)) {
+            echo "<p style='color: green;'>Form data received successfully!</p>";
+            
+            // Try to insert a simple service
+            $data = [
+                'user_id' => 3,
+                'category_id' => 1,
+                'title' => $_POST['title'] ?? 'Test Service',
+                'description' => $_POST['description'] ?? 'Test Description',
+                'price' => $_POST['price'] ?? 100,
+                'discounted_price' => $_POST['discounted_price'] ?? 80,
+                'created_at' => date('Y-m-d H:i:s')
+            ];
+            
+            try {
+                $this->db->table('services')->insert($data);
+                echo "<p style='color: green;'>Service inserted successfully!</p>";
+            } catch (\Exception $e) {
+                echo "<p style='color: red;'>Error inserting service: " . $e->getMessage() . "</p>";
+            }
+        }
+        
+        echo '<form method="post" action="/admin/services/test_add_simple">';
+        echo '<p>Title: <input type="text" name="title" value="Test Service"></p>';
+        echo '<p>Description: <textarea name="description">Test Description</textarea></p>';
+        echo '<p>Price: <input type="number" name="price" value="100"></p>';
+        echo '<p>Discounted Price: <input type="number" name="discounted_price" value="80"></p>';
+        echo '<p><button type="submit">Test Submit</button></p>';
+        echo '</form>';
+    }
+    
+    public function test_simple_form()
+    {
+        // Force write to log immediately
+        file_put_contents('/var/www/html2/writable/logs/debug.txt', date('Y-m-d H:i:s') . " - test_simple_form called\n", FILE_APPEND);
+        
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            file_put_contents('/var/www/html2/writable/logs/debug.txt', date('Y-m-d H:i:s') . " - POST received in test_simple_form\n", FILE_APPEND);
+            
+            echo "<h2>SUCCESS: Form submission worked!</h2>";
+            echo "<pre>POST Data:\n" . print_r($_POST, true) . "</pre>";
+            return;
+        }
+        
+        echo '<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Pure HTML Test Form</h2>
+        <form action="/admin/services/test_simple_form" method="post">
+            <div class="mb-3">
+                <label>Title:</label>
+                <input type="text" name="title" class="form-control" value="Test Service" required>
+            </div>
+            <div class="mb-3">
+                <label>Description:</label>
+                <textarea name="description" class="form-control" required>Test Description</textarea>
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Submit Test</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>';
+    }
+    
+    public function simple_add_service_page()
+    {
+        if (!$this->isLoggedIn || !$this->userIsAdmin) {
+            return redirect('admin/login');
+        }
+        
+        // Get categories and partners
+        $categories = $this->db->table('categories')->get()->getResultArray();
+        $partners = $this->db->table('users u')
+            ->select('u.id,u.username,pd.company_name')
+            ->join('partner_details pd', 'pd.partner_id = u.id')
+            ->where('is_approved', '1')
+            ->get()->getResultArray();
+        
+        echo '<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Service - Working Version</title>
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-3">
+        <div class="card">
+            <div class="card-header">
+                <h4>Add New Service (Working Version)</h4>
+            </div>
+            <div class="card-body">
+                <form action="/admin/services/insert_service" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_test_name" value="dummy_csrf_hash">
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label>Select Provider *</label>
+                            <select name="partner" class="form-control" required>
+                                <option value="">Select Provider</option>';
+        
+        foreach ($partners as $partner) {
+            echo '<option value="' . $partner['id'] . '">' . htmlspecialchars($partner['company_name']) . ' - ' . htmlspecialchars($partner['username']) . '</option>';
+        }
+        
+        echo '              </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Category *</label>
+                            <select name="categories" class="form-control" required>
+                                <option value="">Select Category</option>';
+        
+        foreach ($categories as $category) {
+            echo '<option value="' . $category['id'] . '">' . htmlspecialchars($category['name']) . '</option>';
+        }
+        
+        echo '              </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label>Service Title *</label>
+                            <input type="text" name="title" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Service Slug *</label>
+                            <input type="text" name="service_slug" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label>Tags * (comma separated)</label>
+                        <input type="text" name="tags" class="form-control" placeholder="tag1,tag2,tag3" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label>Description *</label>
+                        <textarea name="description" class="form-control" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label>Long Description *</label>
+                        <textarea name="long_description" class="form-control" rows="5" required></textarea>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label>Price *</label>
+                            <input type="number" name="price" class="form-control" step="0.01" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Discounted Price *</label>
+                            <input type="number" name="discounted_price" class="form-control" step="0.01" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Members Required *</label>
+                            <input type="number" name="members" class="form-control" value="1" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label>Duration (minutes) *</label>
+                            <input type="number" name="duration" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Max Quantity *</label>
+                            <input type="number" name="max_qty" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary btn-lg">Add Service</button>
+                        <a href="/admin/services" class="btn btn-secondary btn-lg">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>';
+    }
+    
     public function index()
     {
         try {
@@ -103,8 +449,6 @@ class Services extends Admin
     }
     public function add_service()
     {
-
-
         try {
             if (!$this->isLoggedIn || !$this->userIsAdmin) {
                 return redirect('admin/login');
@@ -333,10 +677,12 @@ class Services extends Admin
                     return ErrorResponse("Service can not be saved!", true, [], [], 200, csrf_token(), csrf_hash());
                 }
             } else {
+                log_message('info', 'No POST data received - redirecting to partner/services');
                 return redirect()->to('partner/services');
             }
         } catch (\Throwable $th) {
-
+            log_message('error', 'Exception in add_service: ' . $th->getMessage());
+            log_message('error', 'Exception trace: ' . $th->getTraceAsString());
             log_the_responce($th, date("Y-m-d H:i:s") . '--> app/Controllers/admin/Services.php - add_service()');
             return ErrorResponse("Something Went Wrong", true, [], [], 200, csrf_token(), csrf_hash());
         }

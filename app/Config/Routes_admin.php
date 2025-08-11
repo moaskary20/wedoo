@@ -189,6 +189,10 @@ $routes->add('admin/addresses/list', 'admin\Addresses::list');
 //SERVIES ROUTES
 $routes->add('admin/services', 'admin\Services::index');
 $routes->add('admin/services/list', 'admin\Services::list');
+$routes->add('admin/services/simple_add_service', 'admin\Services::simple_add_service');
+$routes->add('admin/services/test_add_simple', 'admin\Services::test_add_simple');
+$routes->add('admin/services/test_simple_form', 'admin\Services::test_simple_form');
+$routes->add('admin/services/simple_add_service_page', 'admin\Services::simple_add_service_page');
 $routes->add('admin/services/add_service', 'admin\Services::add_service_view');
 $routes->add('admin/services/insert_service', 'admin\Services::add_service');
 $routes->add('admin/services/delete_service', 'admin\Services::delete_service');

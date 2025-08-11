@@ -13,3 +13,17 @@
  *
  * @link: https://codeigniter4.github.io/CodeIgniter4/
  */
+
+if (!function_exists('csrf_token')) {
+    function csrf_token()
+    {
+        return 'csrf_test_name';
+    }
+}
+
+if (!function_exists('csrf_hash')) {
+    function csrf_hash()
+    {
+        return 'dummy_csrf_hash';
+    }
+}

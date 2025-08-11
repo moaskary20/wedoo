@@ -16,15 +16,15 @@ class Security extends BaseConfig
 	 * @var string
 	 */
 
-	 public $csrfProtection = true;
+	public $csrfProtection = false;
 	public $tokenName = 'csrf_test_name';
-	public $tokenRandomize = true; 
+	public $tokenRandomize = false; 
 	// public $csrfProtection = true;
     public $csrfTokenName = 'csrf_test_name';
     public $csrfCookieName = 'csrf_cookie_name';
     public $csrfExpire = 7200; // 2 hours
-    public $csrfRegenerate = true;
-    public $csrfRedirect = true;
+    public $csrfRegenerate = false;
+    public $csrfRedirect = false;
 	/**
 	 * --------------------------------------------------------------------------
 	 * CSRF Header Name
@@ -69,7 +69,7 @@ class Security extends BaseConfig
 	 *
 	 * @var boolean
 	 */
-	public $regenerate = true;
+	public $regenerate = false;
 
 	/**
 	 * --------------------------------------------------------------------------
@@ -80,7 +80,7 @@ class Security extends BaseConfig
 	 *
 	 * @var boolean
 	 */
-	public $redirect = true;
+	public $redirect = false;
 
 	/**
 	 * --------------------------------------------------------------------------

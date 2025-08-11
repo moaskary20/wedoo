@@ -487,6 +487,16 @@ $(document).ready(function () {
     });
   }
   $(document).on("submit", ".form-submit-event", function (e) {
+    // Skip forms with normal-form-submit class
+    if ($(this).hasClass('normal-form-submit')) {
+      return true;
+    }
+    
+    console.log("Form submit event triggered");
+    console.log("csrfName:", csrfName);
+    console.log("csrfHash:", csrfHash);
+    console.log("Action URL:", $(this).attr("action"));
+    
     e.preventDefault();
     var formData = new FormData(this);
     var form_id = $(this).attr("id");
@@ -497,6 +507,11 @@ $(document).ready(function () {
     var button_text =
       btn_html != "" || btn_html != "undefined" ? btn_html : btn_val;
     formData.append(csrfName, csrfHash);
+    
+    console.log("FormData entries:");
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
     $.ajax({
       type: "POST",
       url: $(this).attr("action"),
@@ -555,6 +570,23 @@ $(document).ready(function () {
           $("#update_modal").bootstrapTable("refresh");
         }
       },
+      error: function(xhr, status, error) {
+        console.log("AJAX Error:");
+        console.log("Status:", status);
+        console.log("Error:", error);
+        console.log("Response Text:", xhr.responseText);
+        console.log("Status Code:", xhr.status);
+        
+        submit_btn.attr("disabled", false);
+        submit_btn.removeClass("btn-secondary");
+        submit_btn.addClass("btn-primary");
+        submit_btn.html(button_text);
+        
+        showToastMessage("AJAX Error: " + status + " - " + error, "error");
+      },
+      complete: function(xhr, status) {
+        console.log("AJAX Complete. Status:", status);
+      }
     });
   });
   $(document).on(
@@ -634,6 +666,11 @@ $(document).ready(function () {
   );
 
   $(document).on("submit", ".update-form", function (e) {
+    // Skip forms with normal-form-submit class
+    if ($(this).hasClass('normal-form-submit')) {
+      return true;
+    }
+    
     e.preventDefault();
     var formData = new FormData(this);
     var form_id = $(this).attr("id");
