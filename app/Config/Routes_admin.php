@@ -107,7 +107,7 @@ $routes->add('admin/categories/list', 'admin\Categories::list');
 //FEATURE SECTION ROUTES
 $routes->add('admin/Featured_sections', 'admin\Featured_sections::index');
 $routes->add('admin/featured_sections/add_featured_section', 'admin\Featured_sections::add_featured_section');
-$routes->add('admin/featured_sections/get_custom_services', 'admi\/Featured_sections::get_custom_services');
+$routes->add('admin/featured_sections/get_custom_services', 'admin\Featured_sections::get_custom_services');
 $routes->add('admin/featured_sections/list', 'admin\Featured_sections::list');
 $routes->add('admin/featured_sections/update_featured_section', 'admin\Featured_sections::update_featured_section');
 $routes->add('admin/featured_sections/delete_featured_section', 'admin\Featured_sections::delete_featured_section');
